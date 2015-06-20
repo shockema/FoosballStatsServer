@@ -24,7 +24,7 @@ app = Flask(__name__)
 
 
 _g_config = {}
-_g_configFile = "/media/sdi1/firestone/foosball/foosball.cfg"     ## Adjust to environment...
+_g_configFile = "./foosball.cfg"     ## Adjust to environment...
 
 
 
@@ -184,6 +184,7 @@ class PlayerStats(object):
         result += "\n"
         return result
 
+    ## TODO:  format better here...
     def typeToString(self, rel, rval, showName = False, showZeros = True, showHeader = True, separator = "\t"):
         result = ""
         if (showHeader):
@@ -590,8 +591,7 @@ def _trash(commandArgs, db, user):
 
 @app.route("/player", methods=['POST'])             ## Route used by web
 def newPlayer():
-    _readConfigFile()
-    _enableLogging()
+    _startup()
     if ("targetName" not in request.form):
         abort(400)
     commandArgs = [ "player", request.form["targetName"] ]
@@ -612,8 +612,7 @@ def newPlayer():
 
 @app.route("/players", methods=['GET'])             ## Route used by web
 def getPlayers():
-    _readConfigFile()
-    _enableLogging()
+    _startup()
     commandArgs = [ "players" ]
     user = "a web user"
     db = _connectDB()
@@ -628,8 +627,7 @@ def getPlayers():
 
 @app.route("/game", methods=['POST'])               ## Route used by web
 def game():
-    _readConfigFile()
-    _enableLogging()
+    _startup()
     if ("side1" not in request.form  or  "side2" not in request.form):
         abort(400)
     commandArgs = [ "game", request.form["side1"], request.form["side2"] ]
@@ -646,8 +644,7 @@ def game():
 
 @app.route("/stats", methods=['GET','POST'])        ## Route used by web
 def stats():
-    _readConfigFile()
-    _enableLogging()
+    _startup()
     commandArgs = [ "stats" ]
     if ("playerName" in request.form):
         commandArgs.append(request.form["playerName"])
@@ -667,8 +664,7 @@ def stats():
 
 @app.route("/recent", methods=['GET','POST'])       ## Route used by web
 def recent():
-    _readConfigFile()
-    _enableLogging()
+    _startup()
     commandArgs = [ "recent" ]
     user = "a web user"
     db = _connectDB()
@@ -681,7 +677,7 @@ def recent():
         db.close()
 
 
-@app.route("/slack", methods=['POST'])                   ## Route used by Slack
+@app.route("/slack", methods=['POST'])              ## Route used by Slack
 def slack():
     _readConfigFile()
     if (request.form['token'] != _g_config["slack"]["teamPayloadToken"]  or  request.form['team_domain'] != _g_config["slack"]["teamDomain"]):
