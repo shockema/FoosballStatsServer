@@ -2,7 +2,7 @@
 
 ## Slack Integration / Web API for tracking statistics for Foosball games among players in our organization.
 ## Created:  June, 2015
-## Created by:  Steve@bluedot.global
+## Created by:  shockema@gmail.com
 ## Copyright 2015, Stephen Hockema
 
 import datetime
