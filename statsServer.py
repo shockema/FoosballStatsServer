@@ -141,7 +141,6 @@ class PlayerStats(object):
         except Exception as e:
             app.logger.error("Caught exception tallying player stats for '" + name + "' as '" + colorAs + "' against '" + colorAgainst + "':  " + str(e))
 
-
     @staticmethod
     def categoryString(rel, rval):
         if (rel == ""  and  rval == ""):
@@ -152,7 +151,6 @@ class PlayerStats(object):
             return rel + " " + rval
         else:
             return rel
-
 
     def typeToDictionary(self, rel, rval):
         return { "category" : PlayerStats.categoryString(rel, rval), \
@@ -171,7 +169,6 @@ class PlayerStats(object):
                     if (rel != "with"  or  len(rval) == 0):
                         resultArr.append(self.typeToDictionary(rel, rval))
         return { "player" : self.name, "stats" : resultArr }
-
 
     @staticmethod
     def header(cat = "", separator = "   "):
@@ -425,7 +422,6 @@ class GameSide(object):
         if (score >= 0):
             self.score = score
 
-
     def toString(self):
         result = "" 
         result += self.p1
@@ -436,10 +432,8 @@ class GameSide(object):
         result += ":" + str(self.score)
         return result
 
-
     def checkPosition(self, pos):
         return (pos == "red"  or  pos == "black"  or  pos == "redO"  or  pos == "redD"  or  pos == "blackO"  or  pos == "blackD")
-
 
     def parse(self, txt):
         mm = re.search('([^(]+)\(([^)]+)\)(\+([^(]+)\(([^)]+)\))?:(\d+)', txt)
@@ -556,9 +550,9 @@ def _recent(commandArgs, db, user, client = "slack"):
 
 
 def _trash(commandArgs, db, user):
-    if (len(commandArgs) != 1):
-        return "trash comand takes no arguments.  Use \"/foosball help\"."
     result = "You're not good enough yet to trash talk!"
+    if (len(commandArgs) != 1):
+        return result
     cursor = db.cursor()
     try:
         cursor.execute("SELECT * FROM Game as G WHERE timestamp > DATE_SUB(CURDATE(), INTERVAL 1 DAY) ORDER BY timestamp DESC LIMIT 1")
