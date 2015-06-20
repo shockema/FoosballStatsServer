@@ -3,15 +3,15 @@ Slack Integration / Web API for tracking statistics for Foosball games among pla
 
 
 ## To install on a server: 
-1.  Create ar MySQL database called "Foosball"; create the tables using `foosball.sql`.
-2.  Customize the JSON in the `foosball.cfg` config file with details of your database connection.
+1.  Create a MySQL database, e.g. called "Foosball"; create the tables using `foosball.sql`.
+2.  Customize the JSON in the `foosball.cfg` config file with details of your database and connection.
 3.  Update the `_g_configFile` variable at the top of `statsServer.py` to point to the config file.
 4.  This uses Flask for HTTP request routing.  Set up your web server (for example, NGinX with uWSGI) to point to the python code.
 
 
 ## To integrate with Slack:
 
-1.  Create a Web API token for your organization if you haven't already at:  https://api.slack.com/web.
+1.  Create a Web API token for your organization if you haven't already at:  [https://api.slack.com/web].
   - Add this to the "foosball.cfg" file with the "apiToken" key.
 
 2. Create a Slack channel for the bot to post messages in.
