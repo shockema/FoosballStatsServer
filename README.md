@@ -1,6 +1,6 @@
 # FoosballStatsServer
 Slack Integration / Web API for tracking statistics for Foosball games among players in an organization.
-
+See this project's [wiki](https://github.com/shockema/FoosballStatsServer/wiki) for the planned roadmap.
 
 ## To install on a server: 
 1.  Create a MySQL database, e.g. called "Foosball"; create the tables using `foosball.sql`.
@@ -11,7 +11,7 @@ Slack Integration / Web API for tracking statistics for Foosball games among pla
 
 ## To integrate with Slack:
 
-1.  Create a Web API token for your organization if you haven't already at:  [https://api.slack.com/web].
+1.  Create a Web API token for your organization if you haven't already at:  https://api.slack.com/web.
   - Add this to the "foosball.cfg" file with the "apiToken" key.
 
 2. Create a Slack channel for the bot to post messages in.
