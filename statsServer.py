@@ -275,6 +275,22 @@ def _playerIdToName(db, playerId):
     return "Unknown"
 
 
+def _addCommandArgsFromFlaskRequest(params, commandArgs):
+    if (request.method == "POST"):
+        for param in params:
+            if (param not in request.form):
+                return False
+        for param in params:
+            commandArgs.append(request.form[param])
+    else:
+        for param in params:
+            if (param not in request.args):
+                return False
+        for param in params:
+            commandArgs.append(request.args.get(param))
+    return True
+
+
 
 ##################
 ## API Handlers ##
@@ -588,7 +604,8 @@ def newPlayer():
     _startup()
     if ("targetName" not in request.form):
         abort(400)
-    commandArgs = [ "player", request.form["targetName"] ]
+    commandArgs = [ "player" ]
+    _addCommandArgsFromFlaskRequest("targetName", commandArgs)
     user = "a web user"
     db = _connectDB()
     try:
@@ -624,7 +641,8 @@ def game():
     _startup()
     if ("side1" not in request.form  or  "side2" not in request.form):
         abort(400)
-    commandArgs = [ "game", request.form["side1"], request.form["side2"] ]
+    commandArgs = [ "game" ]
+    _addCommandArgsFromFlaskRequest([ "side1", "side2" ], commandArgs)
     user = "a web user"
     db = _connectDB()
     try:
@@ -640,11 +658,8 @@ def game():
 def stats():
     _startup()
     commandArgs = [ "stats" ]
-    if ("playerName" in request.form):
-        commandArgs.append(request.form["playerName"])
-    elif ("playerName1" in request.form  and  "playerName2" in request.form):
-        commandArgs.append(request.form["playerName1"])
-        commandArgs.append(request.form["playerName2"])
+    if (not _addCommandArgsFromFlaskRequest("playerName", commandArgs)):
+        _addCommandArgsFromFlaskRequest(["playerName1", "playerName2"], commandArgs)
     user = "web"
     db = _connectDB()
     try:
