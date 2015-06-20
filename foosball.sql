@@ -1,10 +1,8 @@
 USE Foosball;
-GO
 
 
 DROP TABLE IF EXISTS Game;
 DROP TABLE IF EXISTS Player;
-GO
 
 
 CREATE TABLE Player (
@@ -12,7 +10,6 @@ CREATE TABLE Player (
     name VARCHAR(256) NOT NULL,
     UNIQUE INDEX index_Player_name (name)
 );
-GO
 
 
 CREATE TABLE Game (
@@ -34,4 +31,4 @@ CREATE TABLE Game (
     INDEX index_Game_blackDefense (blackDefense),
     INDEX index_Game_blackOffense (blackOffense)
 );
-GO
+
