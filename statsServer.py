@@ -139,7 +139,7 @@ class PlayerStats(object):
                     _incrElement(self.gameResults[result]["against"], opponent)
                     _incrElement(self.goalDelta["against"], opponent, goalDelta)
         except Exception as e:
-            app.logger.error("Caught exception tallying player stats for '" + name + "' as '" + colorAs + "' against '" + colorAgainst + "':  " + str(e))
+            app.logger.error("Caught exception tallying player stats for '" + self.name + "' as '" + colorAs + "' against '" + colorAgainst + "':  " + str(e))
 
     @staticmethod
     def categoryString(rel, rval):
