@@ -436,7 +436,7 @@ class GameSide(object):
             self.p1pos = color + "D"
             self.p2pos = color + "O"
         if (score >= 0):
-            self.score = score
+            self.score = str(score)
 
     def toString(self):
         result = "" 
@@ -459,7 +459,7 @@ class GameSide(object):
             self.p2 = mm.group(4)
             self.p2pos = mm.group(5)
             self.score = mm.group(6)
-            if (self.score < 0):
+            if (int(self.score) < 0):
                 return False
             if (not self.checkPosition(self.p1pos)  or  (self.p2pos is not None  and  not self.checkPosition(self.p2pos))):
                 return False
@@ -492,7 +492,7 @@ def _game(commandArgs, db, user):
     if (firstSide.p1pos.startswith("red")):
         sql += "," + str(firstSide.score)
         sql += "," + str(secondSide.score)
-        redMargin = firstSide.score - secondSide.score
+        redMargin = int(firstSide.score) - int(secondSide.score)
         redDefense = s1p1id
         redOffense = s1p2id
         blackDefense = s2p1id
@@ -500,7 +500,7 @@ def _game(commandArgs, db, user):
     else:
         sql += "," + str(secondSide.score)
         sql += "," + str(firstSide.score)
-        redMargin = firstSide.score - secondSide.score
+        redMargin = int(firstSide.score) - int(secondSide.score)
         redDefense = s2p1id
         redOffense = s2p2id
         blackDefense = s1p1id
@@ -602,10 +602,9 @@ def _trash(commandArgs, db, user):
 @app.route("/player", methods=['POST'])             ## Route used by web
 def newPlayer():
     _startup()
-    if ("targetName" not in request.form):
-        abort(400)
     commandArgs = [ "player" ]
-    _addCommandArgsFromFlaskRequest("targetName", commandArgs)
+    if (not _addCommandArgsFromFlaskRequest("targetName", commandArgs)):
+        abort(400)
     user = "a web user"
     db = _connectDB()
     try:
@@ -636,13 +635,12 @@ def getPlayers():
         db.close()
 
 
-@app.route("/game", methods=['POST'])               ## Route used by web
+@app.route("/game", methods=['GET','POST'])               ## Route used by web
 def game():
     _startup()
-    if ("side1" not in request.form  or  "side2" not in request.form):
-        abort(400)
     commandArgs = [ "game" ]
-    _addCommandArgsFromFlaskRequest([ "side1", "side2" ], commandArgs)
+    if (not _addCommandArgsFromFlaskRequest([ "side1", "side2" ], commandArgs)):
+        abort(400)
     user = "a web user"
     db = _connectDB()
     try:
