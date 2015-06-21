@@ -635,7 +635,7 @@ def getPlayers():
         db.close()
 
 
-@app.route("/game", methods=['GET','POST'])               ## Route used by web
+@app.route("/game", methods=['POST'])                     ## Route used by web
 def game():
     _startup()
     commandArgs = [ "game" ]
@@ -652,7 +652,7 @@ def game():
         db.close()
 
 
-@app.route("/stats", methods=['GET','POST'])        ## Route used by web
+@app.route("/stats", methods=['GET','POST'])              ## Route used by web
 def stats():
     _startup()
     commandArgs = [ "stats" ]
