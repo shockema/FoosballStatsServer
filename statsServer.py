@@ -500,7 +500,7 @@ def _game(commandArgs, db, user):
     else:
         sql += "," + str(secondSide.score)
         sql += "," + str(firstSide.score)
-        redMargin = int(firstSide.score) - int(secondSide.score)
+        redMargin = int(secondSide.score) - int(firstSide.score)
         redDefense = s2p1id
         redOffense = s2p2id
         blackDefense = s1p1id
@@ -635,7 +635,7 @@ def getPlayers():
         db.close()
 
 
-@app.route("/game", methods=['POST'])                     ## Route used by web
+@app.route("/game", methods=['POST'])               ## Route used by web
 def game():
     _startup()
     commandArgs = [ "game" ]
@@ -652,7 +652,7 @@ def game():
         db.close()
 
 
-@app.route("/stats", methods=['GET','POST'])              ## Route used by web
+@app.route("/stats", methods=['GET','POST'])        ## Route used by web
 def stats():
     _startup()
     commandArgs = [ "stats" ]
